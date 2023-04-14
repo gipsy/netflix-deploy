@@ -21,13 +21,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         throw new Error('Invalid ID');
       }
       
-      if (!currentUser) {
-        throw new Error('Please sign in');
-      }
-
       const user = await prismadb.user.update({
         where: {
-          email: currentUser.email || '',
+          email: currentUser?.email || '',
         },
         data: {
           favoriteIds: {
@@ -58,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const updatedUser = await prismadb.user.update({
         where: {
-          email: currentUser.email || '',
+          email: currentUser?.email || '',
         },
         data: {
           favoriteIds: updatedFavoriteIds,
