@@ -20,6 +20,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (!existingMovie) {
         throw new Error('Invalid ID');
       }
+      
+      if (!currentUser) {
+        throw new Error('Please sign in');
+      }
 
       const user = await prismadb.user.update({
         where: {
