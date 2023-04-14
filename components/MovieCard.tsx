@@ -4,7 +4,10 @@ import { useRouter } from 'next/router';
 import { BsFillPlayFill } from 'react-icons/bs';
 import FavoriteButton from './FavoriteButton';
 import useInfoModalStore from "@/hooks/useInfoModalStore";
-import { BiChevronDown } from "react-icons/all";
+import { BiChevronDown } from "react-icons/bi";
+
+// import { ChevronDownIcon } from '@heroicons/react/24/outline';
+// import { PlayIcon } from '@heroicons/react/24/solid';
 
 interface MovieCardProps {
   data: Record<string, any>;
