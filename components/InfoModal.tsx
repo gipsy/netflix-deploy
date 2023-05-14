@@ -5,7 +5,7 @@ import PlayButton from "@/components/PlayButton";
 import FavoriteButton from "@/components/FavoriteButton";
 import useInfoModalStore from "@/hooks/useInfoModalStore";
 import useMovie from "@/hooks/useMovie";
-import { toJSON } from "yaml/util";
+//import { toJSON } from "yaml/util";
 
 interface InfoModalProps {
   visible?: boolean;
@@ -16,9 +16,7 @@ const InfoModal: React.FC<InfoModalProps> = ({ visible, onClose }) => {
   const [isVisible, setIsVisible] = useState<boolean>(!!visible);
   
   const { movieId } = useInfoModalStore();
-  console.log(`movieId: ${movieId}`)
   const { data = {} } = useMovie(movieId);
-  console.log(`DATA  : ${toJSON(data)}`)
   
   useEffect(() => {
     setIsVisible(!!visible);
