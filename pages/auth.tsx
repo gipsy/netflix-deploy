@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError }     from 'axios';
 import { useState, useCallback } from 'react';
 import { NextPageContext } from "next";
 import {getSession, signIn} from 'next-auth/react';
@@ -8,6 +8,11 @@ import { FaGithub } from 'react-icons/fa';
 import Input                        from "@/components/Input";
 import { Toasts, useToastControls } from "@/components/Toasts";
 import { useRouter }                from "next/router";
+
+interface ValidationError {
+  message: string;
+  error: Record<string, string[]>
+}
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
@@ -25,6 +30,7 @@ export async function getServerSideProps(context: NextPageContext) {
     props: {}
   }
 }
+
 const Auth = () => {
   const { show } = useToastControls();
   const [email, setEmail] = useState('');
@@ -69,9 +75,12 @@ const Auth = () => {
       });
       await login();
     } catch (error) {
-      setError(error.response.data.error);
-      show('toast-error');
-      console.log(error)
+      if (axios.isAxiosError<ValidationError, Record<string, unknown>>(error)){
+        const message = error?.response?.data?.error.toString() || 'Unknown error';
+        setError( message );
+        show( 'toast-error' );
+        console.log( error )
+      }
     }
   }, [email, name, password, login]);
   
